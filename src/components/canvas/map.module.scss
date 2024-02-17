@@ -1,0 +1,18 @@
+.canvas__map {
+  position: absolute !important;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  scale: 0.8;
+}
+
+@media (max-width: 1200px) {
+  .canvas__map {
+    scale: 0.75;
+    top: 0;
+    left: 0;
+    translate: 0;
+    transform: translateX(-110px) translateY(-50px);
+  }
+}

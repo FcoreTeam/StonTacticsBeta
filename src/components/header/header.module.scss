@@ -1,0 +1,123 @@
+header{
+    width: 100%;
+    height: 89px;
+    background: #101214;
+    display: flex; 
+    justify-content: center;
+}
+.header__wrapper{         
+    width: 1280px;
+    height: 100%;
+    display: flex;
+    background: #101214;
+    align-items: center;
+}
+.header__img{
+    width: 142.09px;
+    height: 44px;
+    background: #101214;
+    margin-left: 20px;
+}
+.header__navigation{
+    height: 100%;
+    background: #101214;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.navigation__title{
+    background: #101214;
+    font-size: 17px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin-left: 0px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 30px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.choosen{
+    color: #DBFF00;  
+}
+.pro__wrap{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    background: #101214;
+    justify-content: flex-end;
+    align-items: center;
+}
+.pro{
+    width: 149px;
+    height: 44px;
+    border-radius: 10px;
+    background: #DBFF00;
+    margin-right: 30px;
+    font-weight: 700;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  }
+
+@media(max-width: 1052px){
+        .pro{
+           width: 100px;
+           height: 30px;
+           font-size: 20px;
+        }
+      }
+    @media(max-width: 997px){
+        .header__navigation{
+            display: none;
+        }
+       }
+
+   @media(max-width: 997px){
+    .pro__wrap{
+        width: 80%;
+    }
+  }
+
+/* burger */
+.burger{
+        display: none;
+ }
+
+@media(max-width: 997px){
+    .img{
+        margin-left: 20px;
+    }
+    .burger{
+        display: block;
+        position: relative;
+        width: 30px;
+        height: 20px;
+        background: #101214;
+        margin-right: 20px;
+    }
+    .burger::before,
+    .burger::after{
+        content: '';
+        background-color: #fff;
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+    }
+    .burger:before{
+        top: 0;
+    }
+    .burger::after{
+        bottom: 0;
+    }
+    .burger span{
+        background-color: #fff;
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        top: 9px;
+    }
+}

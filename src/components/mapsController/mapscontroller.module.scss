@@ -1,0 +1,71 @@
+.map {
+  border-radius: 10px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+
+  &.rust {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/rust.PNG");
+    background-size: cover;
+  }
+
+  &.sandstone {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/sandstone.PNG");
+    background-size: cover;
+  }
+
+  &.province {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/province.PNG");
+    background-size: cover;
+  }
+
+  &.sakura {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/sakura.PNG");
+    background-size: cover;
+  }
+
+  &.dune {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/dune.PNG");
+    background-size: cover;
+  }
+
+  &.breeze {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/breeze.PNG");
+    background-size: cover;
+  }
+
+  &.zone {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("../../img/mapsbanners/zone.PNG");
+    background-size: cover;
+  }
+ &.grenademap{
+ width: 110px !important;
+ }
+  &:hover {
+    border: 2px solid #0085ff;
+  }
+  
+  &.selected {
+    border: 2px solid #0085ff;
+  }
+
+  .map__name {
+    background: transparent;
+    color: #fff;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+}

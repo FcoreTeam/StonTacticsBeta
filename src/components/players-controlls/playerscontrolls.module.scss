@@ -1,0 +1,21 @@
+.players__controlls{
+    min-width: 100%;
+    margin-top: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.player__button{
+    border-radius: 10px;
+}
+.first__team,.second__team{
+    min-width: 18%;
+    display: flex;
+    justify-content: space-between;
+}
+.grenades{
+    display: flex;
+    min-width: 14%;
+    justify-content: space-between;
+}
