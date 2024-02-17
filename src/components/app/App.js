@@ -9,14 +9,14 @@ import Canvas from '../canvas/Canvas';
 const App = () => {
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   navigate("/stontactics")
-  // }, [])
+  useEffect(() => {
+    navigate("/strategy")
+  }, [])
 
   return (
     <Routes>
       <Route exact path="/" element={<Page />}>
-        <Route path="/stontactics" element={<Canvas />} />
+        <Route path="/strategy" element={<Canvas />} />
         <Route path="/grenades" element={<Grenades />} />
       </Route>
     </Routes>

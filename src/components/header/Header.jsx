@@ -9,7 +9,7 @@ const Header = () => {
        <div className={styles.header__wrapper}>
          <img src={logo} alt="" className={styles.header__img} />
          <nav className={styles.header__navigation}>
-           <NavLink to="/stontactics" className={navData => navData.isActive ? `${styles.choosen} ${styles.navigation__title}` : styles.navigation__title}>Стратегия</NavLink>
+           <NavLink to="/strategy" className={navData => navData.isActive ? `${styles.choosen} ${styles.navigation__title}` : styles.navigation__title}>Стратегия</NavLink>
            <NavLink to="/grenades" className={navData => navData.isActive ? `${styles.choosen} ${styles.navigation__title}` : styles.navigation__title}>Раскидки</NavLink>
            <p className={styles.navigation__title}>Схемы игр</p>
            <p className={styles.navigation__title}>Комьюнити</p>
