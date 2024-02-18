@@ -112,9 +112,6 @@ const Grenades = () => {
         setShiftPressed(false);
       }
     });
-    // window.addEventListener('resize', () => {
-    //   setCanvasSizes()
-    // });
     document.addEventListener("fullscreenchange", () => {
       if (document.fullscreenElement) {
         setIsFullScreen(true);
@@ -259,24 +256,20 @@ const Grenades = () => {
         playerColor: null,
       });
     } else if (image.name === "player") {
-      // if (image.freezed && image.videoId === undefined) {
-      //   setAddVideoData({ isPopupOpen: true, playerId: image.id });
-      // }
       if (bombToTie.x !== null && bombToTie.y !== null) {
         let updatedElements = elements.map((el) => {
           if (el.id === image.id || el.id === bombToTie.id) {
             return {
               ...el,
               tierId: elements.length + "",
+              fromId: bombToTie.id,
               freezed: true,
               playerColor: image.playerColor,
             };
           }
           return el;
         });
-        let newElements = [
-          ...updatedElements,
-          {
+        updatedElements.unshift({
             tool: "pencil",
             id: elements.length + "",
             fromId: bombToTie.id,
@@ -294,10 +287,10 @@ const Grenades = () => {
             dash: [1, 2],
             playerColor: image.playerColor,
           },
-        ];
+        );
 
         setTool(null);
-        setElements(newElements);
+        setElements(updatedElements);
         setBombToTie({
           x: null,
           y: null,
@@ -366,7 +359,15 @@ const Grenades = () => {
 
   const addVideo = () => {
     const updatedElements = elements.map((el) => {
-      if (el.id === addVideoData.playerData.playerId) {
+      if (el.id === addVideoData.playerData.playerId || el.id === addVideoData.playerData.fromId) {
+        setAddVideoData({
+          isPopupOpen: false,
+          playerData: {
+            playerId: el.id,
+            tierId: el.tierId,
+            fromId: el.fromId,
+          },
+        });
         return {
           ...el,
           videoId: youtubeParser(addingVideoUrl),
@@ -375,20 +376,13 @@ const Grenades = () => {
       return el;
     });
     setElements(updatedElements);
-    setAddVideoData({
-      isPopupOpen: false,
-      playerData: {
-        playerId: null,
-        tierId: null,
-        fromId: null,
-      },
-    });
     setVideoPopup({ isOpen: true, url: youtubeParser(addingVideoUrl) });
     setAddingVideoUrl("");
   };
 
   const removeBind = () => {
     const { playerId, fromId, tierId } = addVideoData.playerData;
+    console.log(playerId, fromId, tierId)
     let newElements = elements.filter(
       (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
     );

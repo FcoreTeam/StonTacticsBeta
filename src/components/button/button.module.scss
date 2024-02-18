@@ -1,63 +1,62 @@
-
 button {
-    transition: .3s;
-    
-    img {
-        width: 25px;
-        height: 25px;
-        pointer-events: none !important;
-    }
-    
-    &.setting__button {
-        min-width: 40px;
-        min-height: 40px;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: .3s;
-        background: #181A1E;
+  transition: 0.3s;
 
-        &.selector{
-            height: 60px;
-            width: 105px;
-            border-radius: 10px;
-          }
-          &.player{
-            margin-left: 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-            width: 80px;
-            height: 70px;
-          }
-        &:hover {
-            border-radius: 10px;
-            background: #606879;
-        }
-        
-        &.active {
-            background: #606879;
-            border-radius: 10px;
-    
-            img {
-                background-color: transparent;
-            }
-        }
-    
-        &.disabled {
-            pointer-events: none;
-            filter: brightness(50%);
-            background-color: transparent;
-            
-            img {
-                background-color: transparent;
-            }
-        }
+  img {
+    width: 25px;
+    height: 25px;
+    pointer-events: none !important;
+  }
+
+  &.setting__button {
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background: #181a1e;
+
+    &.selector {
+      height: 60px;
+      width: 105px;
+      border-radius: 10px;
     }
+    
+    &.player {
+      margin-left: 20px;
+      border-radius: 10px;
+      margin-top: 10px;
+      width: 80px;
+      height: 70px;
+    }
+    &:hover {
+      border-radius: 10px;
+      background: #606879;
+    }
+
+    &.active {
+      background: #606879;
+      border-radius: 10px;
+
+      img {
+        background-color: transparent;
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+      filter: brightness(50%);
+      background-color: transparent;
+
+      img {
+        background-color: transparent;
+      }
+    }
+  }
 }
-.grenade__text{
-    color: #fff;
-    font-size: 12px;
-    margin-top: 5px;
+.grenade__text {
+  color: #fff;
+  font-size: 12px;
+  margin-top: 5px;
 }

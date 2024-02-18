@@ -166,9 +166,6 @@ const DrawImage = ({
   });
 
   useEffect(() => {
-    // if (pathname === "/grenades" && name === "player") {
-    //   setPlayerImage(players[playerAttrs.color][level][5]);
-    // } else
     if (
       name === "player" &&
       players[playerAttrs.color][level][playerAttrs.pos] !== undefined
@@ -193,7 +190,7 @@ const DrawImage = ({
     draggable: draggable && !freezed,
     onDragEnd: (e) => handleObjectDragEnd(id, e, name, playerLevel, count),
     onClick: () => {
-      // if (draggable || (tierId && name !== "player")) return;
+      console.log(videoId)
       if (name === "player" && videoId === undefined && bombToTie.name !== null) {
         setAddVideoData({
           isPopupOpen: true,
@@ -239,7 +236,6 @@ const DrawImage = ({
         });
       }
     },
-    // onMouseEnter: () => !draggable && onMouseEnter(),
   };
 
   const checkPlayerOverlap = (e, overlap) => {

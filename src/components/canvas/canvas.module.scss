@@ -3,13 +3,19 @@ main {
   height: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 15px;
+}
+
+.transform__wrapper ~ div {
+  background-color: red !important;
 }
 
 .canvas__wrapper_wrapper {
-  margin-top: 15px;
+  padding-top: 15px;
+  background-color: #101214;
   
   .canvas__wrapper {
-    margin-left: 10px;
+    // margin-left: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,15 +69,26 @@ main {
       cursor: url("../../img/icons/eraser.svg") 0 40, none;
     }
 
-    // &.canvas__drag {
-    //    cursor: move;
+    // .transform-component-module_wrapper {
+    //   width: 100% !important;
+    //   height: 100vh !important;
     // }
+    &.transform_fullscreen {
+      div {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+      }
+    }
   }
 }
 .map__instruments {
-  padding-top: 5px;
-  min-width: 5%;
+  padding: 5px;
   background: #101214;
+  margin-right: 10px;
 }
 
 .map__wrapper {
@@ -82,10 +99,11 @@ main {
   background: #101214;
 }
 .other__instruments {
-  min-width: 5%;
+  // min-width: 5%;
   background: #101214;
   padding-top: 5px;
   margin-left: 10px;
+  padding: 5px;
 
   .other__wrap {
     height: 150px;
@@ -268,7 +286,6 @@ main {
 .players__controlls {
   width: 100%;
   max-width: 1360px;
-  margin-top: 10px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -299,7 +316,6 @@ main {
 }
 .players__controlls {
   min-width: 100%;
-  margin-top: 10px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -322,7 +338,6 @@ main {
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  background-color: #181a1e;
 }
 .parent {
   display: flex;

@@ -1,15 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Stage, Layer, Line, Text, Arrow, Shape } from "react-konva";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import clsx from "clsx";
+import { v4 } from "uuid";
+
+import { setMatchPart } from "../../store/matchPartsSlice/matchPartsSlice";
 
 import Map from "./Map";
 import Button from "../button/Button";
 import MapsController from "../mapsController/MapsController";
 import StrategyController from "../strategyController/StrategyController";
 import DrawImage from "./DrawImage";
-
-import { setMatchPart } from "../../store/matchPartsSlice/matchPartsSlice";
+import DrawText from "./DrawText";
+import VideoPopup from "../video-popup/VideoPopup";
+import UrlPopup from "../url-popup/UrlPopup";
+import GrenadesGroup from "../grenades-group/GrenadesGroup";
 
 import pencil from "../../img/icons/pencil.svg";
 import eraser from "../../img/icons/eraser.svg";
@@ -59,18 +66,8 @@ import personThreeBlue from "../../img/icons/person_3_blue.svg";
 import personFourBlue from "../../img/icons/person_4_blue.svg";
 import personFiveBlue from "../../img/icons/person_5_blue.svg";
 
-import personT from "../../img/icons/person-fill-t.svg";
-import personCT from "../../img/icons/person-fill-ct.svg";
-
 import styles from "./canvas.module.scss";
 import buttonStyles from "../button/button.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import DrawText from "./DrawText";
-import { useLocation } from "react-router-dom";
-import Popup from "../popup/Popup";
-import VideoPopup from "../video-popup/VideoPopup";
-import UrlPopup from "../url-popup/UrlPopup";
-import GrenadesGroup from "../grenades-group/GrenadesGroup";
 
 const elementImages = {
   warning: warning,
@@ -149,7 +146,7 @@ const Canvas = () => {
       tierId: null,
     },
   });
-  
+
   const [addingVideoUrl, setAddingVideoUrl] = useState("");
   const [videoPopup, setVideoPopup] = useState({
     isOpen: false,
@@ -251,13 +248,13 @@ const Canvas = () => {
     setIsDragable(false);
     isDrawing.current = true;
     let pos = e.target.getStage().getPointerPosition();
-
+    const id = v4().slice(0, 8);
     if (tool === "pencil" || tool === "eraser") {
       setElements([
         ...elements,
         {
           tool,
-          id: elements.length,
+          id: id,
           name: tool,
           x: e.target.x() - 830 / 2,
           y: e.target.y() - 570 / 2,
@@ -313,7 +310,7 @@ const Canvas = () => {
         ...elements,
         {
           tool,
-          id: elements.length,
+          id: id,
           name: tool,
           isDash: isDash,
           arrowType: arrowType,
@@ -435,7 +432,7 @@ const Canvas = () => {
   };
 
   const getTrashOverlap = (clientX, clientY) => {
-    if (pathname === "stontactics") {
+    if (pathname === "/strategy") {
       const { top, bottom, left, right } =
         removeBtnRef.current.getBoundingClientRect();
       return (
@@ -455,11 +452,14 @@ const Canvas = () => {
     var updatedElements;
     var idToRemove;
     if (isOverTrash) {
-      updatedElements = elements.filter((el) => {
-        if (el.id === id) return;
-        return el;
-      });
-    } else if (name === "player") {
+      updatedElements = elements.filter((el) => el.id !== id);
+      const newHistory = history.slice(0, currentStep + 1);
+      newHistory.push(updatedElements);
+      setHistory(newHistory);
+      setCurrentStep(newHistory.length - 1);
+      return;
+    }
+    if (name === "player") {
       updatedElements = elements.map((el) =>
         el.id === id
           ? {
@@ -557,11 +557,12 @@ const Canvas = () => {
   };
 
   const addElement = (elementName, playerAttrs) => {
+    const id = v4().slice(0, 8);
     const newElements = [
       ...elements,
       {
         tool: "image",
-        id: elements.length + "",
+        id: id,
         level: "down",
         playerColor: false,
         playerAttrs: playerAttrs,
@@ -583,12 +584,13 @@ const Canvas = () => {
   };
 
   const addText = () => {
+    const id = v4().slice(0, 8);
     const newHistory = history.slice(0, currentStep + 1);
     newHistory.push([
       ...elements,
       {
         tool: "text",
-        id: elements.length,
+        id: id,
         name: "text",
         x: 0,
         y: 0,
@@ -749,54 +751,51 @@ const Canvas = () => {
         playerColor: null,
       });
     } else if (image.name === "player") {
-      // if (image.freezed) {
-      //   setAddVideoData({
-      //     isPopupOpen: true,
-      //     playerData: {
-      //       playerId: image.id,
-      //       tierId: image.tierId,
-      //       fromId: image.fromId,
-      //     },
-      //   });
-      // }
       if (bombToTie.x !== null && bombToTie.y !== null) {
-        let updatedElements = elements.map((el) => {
-          if (el.id === image.id || el.id === bombToTie.id) {
-            return {
-              ...el,
-              tierId: elements.length + "",
-              fromId: bombToTie.id,
-              freezed: true,
-            };
-          }
-          return el;
+        const id = v4().slice(0, 8);
+        let updatedElements = elements
+          .map((el) => {
+            if (el.id === image.id || el.id === bombToTie.id) {
+              return {
+                ...el,
+                tierId: id,
+                fromId: bombToTie.id,
+                freezed: true,
+              };
+            }
+            return el;
+          })
+          .sort((a, b) => {
+            if (a.freezed && !b.freezed) {
+              return -1;
+            } else if (!a.freezed && b.freezed) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+        updatedElements.unshift({
+          tool: "pencil",
+          id: id,
+          fromId: bombToTie.id,
+          toId: image.id,
+          name: "tier",
+          points: [
+            bombToTie.x + bombToTie.width / 2,
+            bombToTie.y + bombToTie.height / 2,
+            image.x + image.width / 3,
+            image.y + image.height / 2,
+          ],
+          strokeColor: color[0],
+          drawWidth: 1,
+          arrowType: "no-pointer",
+          dash: [1, 2],
         });
-        let newElements = [
-          ...updatedElements,
-          {
-            tool: "pencil",
-            id: elements.length + "",
-            fromId: bombToTie.id,
-            toId: image.id,
-            name: "tier",
-            points: [
-              bombToTie.x + bombToTie.width / 2,
-              bombToTie.y + bombToTie.height / 2,
-              image.x + image.width / 3,
-              image.y + image.height / 2,
-            ],
-            strokeColor: color[0],
-            drawWidth: 1,
-            arrowType: "no-pointer",
-            dash: [1, 2],
-          },
-        ];
 
-        setElements(newElements);
-        // setIsDragable(true);
+        setElements(updatedElements);
         setTool(null);
         const newHistory = history.slice(0, currentStep + 1);
-        newHistory.push(newElements);
+        newHistory.push(updatedElements);
         setHistory(newHistory);
         setCurrentStep(newHistory.length - 1);
         setBombToTie({
@@ -805,13 +804,6 @@ const Canvas = () => {
           name: null,
           id: null,
         });
-        // setAddVideoData((prev) => ({
-        //   isPopupOpen: true,
-        //   playerData: {
-        //     playerId: image.id,
-        //     ...prev.playerData,
-        //   },
-        // }));
       } else {
         setBombToTie({
           x: null,
@@ -821,18 +813,6 @@ const Canvas = () => {
         });
       }
     }
-  };
-
-  const openVideoPopup = (url, id, fromId, tierId) => {
-    setVideoPopup({ isOpen: true, url: url });
-    setAddVideoData((prev) => ({
-      ...prev,
-      playerData: {
-        playerId: id,
-        fromId,
-        tierId,
-      },
-    }));
   };
 
   const youtubeParser = (url) => {
@@ -845,6 +825,14 @@ const Canvas = () => {
   const addVideo = () => {
     const updatedElements = elements.map((el) => {
       if (el.id === addVideoData.playerData.playerId) {
+        setAddVideoData({
+          isPopupOpen: false,
+          playerData: {
+            playerId: el.id,
+            tierId: el.tierId,
+            fromId: el.fromId,
+          },
+        });
         return {
           ...el,
           videoId: youtubeParser(addingVideoUrl),
@@ -853,14 +841,6 @@ const Canvas = () => {
       return el;
     });
     setElements(updatedElements);
-    setAddVideoData({
-      isPopupOpen: false,
-      playerData: {
-        playerId: null,
-        tierId: null,
-        fromId: null,
-      },
-    });
     setVideoPopup({ isOpen: true, url: youtubeParser(addingVideoUrl) });
     setAddingVideoUrl("");
     setTool(null);
@@ -1012,6 +992,7 @@ const Canvas = () => {
                 ref={canvasWrapperRef}
                 className={clsx(
                   styles.canvas__wrapper,
+                  isFullScreen && styles.transform_fullscreen,
                   isDragable && styles.drag__element,
                   (tool === "pencil" || tool === "arrow") && styles.pencil,
                   tool === "eraser" && styles.eraser,
@@ -1036,6 +1017,7 @@ const Canvas = () => {
                   disabled={
                     tool || isDragable || !!selectedTextId || bombGroup.name
                   }
+                  className={styles.transform__wrapper}
                   wheel={{ disabled: !shiftPressed }}
                   ref={transformWrapperRef}
                 >
@@ -1057,101 +1039,99 @@ const Canvas = () => {
                       onMouseLeave={() => (isDrawing.current = false)}
                       // onWheel={handleWheel}
                     >
-                      {pathname === "/stontactics" && (
-                        <Layer x={830 / 2} y={570 / 2} antialias={true}>
-                          {elements.map((element, i) => {
+                      <Layer x={830 / 2} y={570 / 2} antialias={true}>
+                        {elements.map((element, i) => {
+                          if (
+                            element.tool === "pencil" ||
+                            element.tool === "eraser"
+                          ) {
+                            const attrs = {
+                              key: i,
+                              id: String(element.id),
+                              x: element.x,
+                              y: element.y,
+                              points: element.points,
+                              stroke: element.strokeColor,
+                              strokeWidth:
+                                element.tool === "eraser"
+                                  ? 16
+                                  : element.drawWidth,
+                              tension: 0.1,
+                              lineCap: "round",
+                              lineJoin: "round",
+                              globalCompositeOperation:
+                                element.tool === "eraser"
+                                  ? "destination-out"
+                                  : "source-over",
+                              pointerAtEnding: true,
+                              pointerLength: element.pointerLength,
+                              pointerWidth: element.pointerWidth,
+                              scaleY: stageRef.current.width() / 830,
+                              scaleX: stageRef.current.width() / 830,
+                            };
+
+                            return element.arrowType === "pointer-stroke" ? (
+                              <Shape
+                                {...attrs}
+                                sceneFunc={sceneFunc}
+                                dash={element.dash ? [18, 10] : false}
+                              />
+                            ) : (
+                              <Line
+                                {...attrs}
+                                perfectDrawEnabled={true}
+                                dash={
+                                  Array.isArray(element.dash)
+                                    ? element.dash
+                                    : element.dash
+                                    ? [7, 7]
+                                    : false
+                                }
+                              />
+                            );
+                          } else if (element.tool === "arrow") {
                             if (
-                              element.tool === "pencil" ||
-                              element.tool === "eraser"
+                              !element.points.lastX ||
+                              !element.points.lastY
                             ) {
-                              const attrs = {
-                                key: i,
-                                id: String(element.id),
-                                x: element.x,
-                                y: element.y,
-                                points: element.points,
-                                stroke: element.strokeColor,
-                                strokeWidth:
-                                  element.tool === "eraser"
-                                    ? 16
-                                    : element.drawWidth,
-                                tension: 0.1,
-                                lineCap: "round",
-                                lineJoin: "round",
-                                globalCompositeOperation:
-                                  element.tool === "eraser"
-                                    ? "destination-out"
-                                    : "source-over",
-                                pointerAtEnding: true,
-                                pointerLength: element.pointerLength,
-                                pointerWidth: element.pointerWidth,
-                                scaleY: stageRef.current.width() / 830,
-                                scaleX: stageRef.current.width() / 830,
-                              };
-
-                              return element.arrowType === "pointer-stroke" ? (
-                                <Shape
-                                  {...attrs}
-                                  sceneFunc={sceneFunc}
-                                  dash={element.dash ? [18, 10] : false}
-                                />
-                              ) : (
-                                <Line
-                                  {...attrs}
-                                  perfectDrawEnabled={true}
-                                  dash={
-                                    Array.isArray(element.dash)
-                                      ? element.dash
-                                      : element.dash
-                                      ? [7, 7]
-                                      : false
-                                  }
-                                />
-                              );
-                            } else if (element.tool === "arrow") {
-                              if (
-                                !element.points.lastX ||
-                                !element.points.lastY
-                              ) {
-                                return;
-                              }
-
-                              const attrs = {
-                                key: i,
-                                id: element.id,
-                                points: [
-                                  element.points.firstX,
-                                  element.points.firstY,
-                                  element.points.lastX,
-                                  element.points.lastY,
-                                ],
-                                fill: element.color,
-                                stroke: element.color,
-                                strokeWidth: element.drawWidth,
-                                pointerLength: element.pointerLength,
-                                pointerWidth: element.pointerWidth,
-                                lineCap: "round",
-                              };
-
-                              return element.arrowType === "pointer-stroke" ? (
-                                <Shape
-                                  {...attrs}
-                                  sceneFunc={sceneFunc}
-                                  dash={element.isDash ? [18, 10] : false}
-                                />
-                              ) : (
-                                <Arrow
-                                  {...attrs}
-                                  pointerAtEnding={
-                                    !(element.arrowType === "no-pointer")
-                                  }
-                                  dash={element.isDash ? [7, 7] : false}
-                                />
-                              );
+                              return;
                             }
-                          })}
-                        </Layer>
-                      )}
+
+                            const attrs = {
+                              key: i,
+                              id: element.id,
+                              points: [
+                                element.points.firstX,
+                                element.points.firstY,
+                                element.points.lastX,
+                                element.points.lastY,
+                              ],
+                              fill: element.color,
+                              stroke: element.color,
+                              strokeWidth: element.drawWidth,
+                              pointerLength: element.pointerLength,
+                              pointerWidth: element.pointerWidth,
+                              lineCap: "round",
+                            };
+
+                            return element.arrowType === "pointer-stroke" ? (
+                              <Shape
+                                {...attrs}
+                                sceneFunc={sceneFunc}
+                                dash={element.isDash ? [18, 10] : false}
+                              />
+                            ) : (
+                              <Arrow
+                                {...attrs}
+                                pointerAtEnding={
+                                  !(element.arrowType === "no-pointer")
+                                }
+                                dash={element.isDash ? [7, 7] : false}
+                              />
+                            );
+                          }
+                        })}
+                      </Layer>
                       <Layer x={830 / 2} y={570 / 2} antialias={true}>
                         {elements !== null &&
                           elements.map((element, i) => {
@@ -1522,6 +1502,7 @@ const Canvas = () => {
               />
               <Button
                 secondClass={clsx(
+                  styles.player,
                   elements.filter(
                     (el) =>
                       el.name === "player" &&
