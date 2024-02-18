@@ -1174,13 +1174,15 @@ const Canvas = () => {
                                 bombToTie: bombToTie,
                                 handleObjectDragEnd,
                                 onDragMove: (e) => checkOverlap(e),
-                                onClick: (bomb) =>
+                                onClick: (bomb) => {
+                                  if (element.name !== "warning" && element.name !== "location")
                                   selectBombOrPlayer(bomb, {
                                     name: element.name,
                                     count: element.count,
                                     x: element.x,
                                     y: element.y,
-                                  }),
+                                  });
+                                },
                                 setVideoPopup: setVideoPopup,
                                 setAddVideoData: setAddVideoData,
                               };
