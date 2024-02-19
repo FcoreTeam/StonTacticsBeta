@@ -51,8 +51,6 @@ const Grenades = () => {
 
   const [elements, setElements] = useState([]);
 
-  const [selectedTextId, setSelectedTextId] = useState(null);
-
   const [selectedMap, setSelectedMap] = useState("rust");
 
   const [shiftPressed, setShiftPressed] = useState(false);
@@ -185,7 +183,6 @@ const Grenades = () => {
           ) {
             idToRemove = id;
             return {
-              // ...elements.filter((ele) => ele.id === el.id)[0],
               ...el,
               x: e.target.x(),
               y: e.target.y(),
@@ -257,7 +254,6 @@ const Grenades = () => {
         playerColor: null,
       });
     } else if (image.name === "player") {
-      console.log(image.id)
       if (bombToTie.x !== null && bombToTie.y !== null) {
         const id = v4().slice(0, 8);
         let updatedElements = elements
@@ -311,20 +307,6 @@ const Grenades = () => {
 
         setTool(null);
         setElements(updatedElements);
-        // setBombToTie({
-        //   x: null,
-        //   y: null,
-        //   name: null,
-        //   id: null,
-        // });
-        // setAddVideoData({ isPopupOpen: true, playerId: image.id });
-      } else {
-        // setBombToTie({
-        //   x: null,
-        //   y: null,
-        //   name: null,
-        //   id: null,
-        // });
       }
     }
   };
@@ -402,21 +384,20 @@ const Grenades = () => {
 
   const removeBind = () => {
     const { playerId, fromId, tierId } = addVideoData.videoData;
-    console.log(playerId, fromId, tierId)
-    // let newElements = elements.filter(
-    //   (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
-    // );
-    // setElements(newElements);
-    // setTool(null);
-    // setAddVideoData({
-    //   isPopupOpen: false,
-    //   videoData: {
-    //     playerId: null,
-    //     tierId: null,
-    //     fromId: null,
-    //   },
-    // });
-    // setVideoPopup({ isOpen: false, url: null });
+    let newElements = elements.filter(
+      (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
+    );
+    setElements(newElements);
+    setTool(null);
+    setAddVideoData({
+      isPopupOpen: false,
+      videoData: {
+        playerId: null,
+        tierId: null,
+        fromId: null,
+      },
+    });
+    setVideoPopup({ isOpen: false, url: null });
   };
 
   return (
@@ -505,13 +486,13 @@ const Grenades = () => {
                 >
                   <TransformWrapper
                     disabled={
-                      tool || isDragable || !!selectedTextId || bombGroup.name
+                      tool || isDragable || bombGroup.name
                     }
                     wheel={{ disabled: !shiftPressed }}
                     ref={transformWrapperRef}
                   >
                     <TransformComponent
-                      disabled={tool || isDragable || !!selectedTextId}
+                      disabled={tool || isDragable}
                     >
                       <Map mapName={selectedMap} />
                       <Stage
@@ -574,6 +555,7 @@ const Grenades = () => {
                                   count: element.count,
                                   tierId: element.tierId,
                                   fromId: element.fromId,
+                                  playerId: element.playerId,
                                   file: element.file,
                                   draggable: isDragable,
                                   freezed: element.freezed,

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Circle, Group, Rect, Text, Transformer } from "react-konva";
+import { memo, useEffect, useRef, useState } from "react";
+import { Circle, Rect, Text, Transformer } from "react-konva";
 
 const DrawText = ({
   element,
@@ -58,11 +58,7 @@ const DrawText = ({
     node.scaleY(1);
     rectRef.current.x(x);
     rectRef.current.y(y);
-    // rectRef.current.rotation(rotation);
     rectRef.current.getLayer().batchDraw();
-    // textRef.current.x(x);
-    // textRef.current.y(y);
-    // textRef.current.getLayer().batchDraw();
     setTransformedSize({
       width: Math.max(5, node.width() * scaleX),
       height: Math.max(5, node.height() * scaleY),
@@ -199,4 +195,4 @@ const DrawText = ({
   );
 };
 
-export default DrawText;
+export default memo(DrawText);

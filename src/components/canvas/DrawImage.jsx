@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Circle, Image, Rect, Text } from "react-konva";
 import { useImage } from "react-konva-utils";
 
@@ -191,7 +191,6 @@ const DrawImage = ({
     draggable: draggable && !freezed,
     onDragEnd: (e) => handleObjectDragEnd(id, e, name, playerLevel, count),
     onClick: () => {
-      console.log(playerId, id, tierId);
       if (name === "player" && freezed) return
       if (name !== "player" && freezed && videoId !== undefined) {
         setAddVideoData({
@@ -327,7 +326,7 @@ const DrawImage = ({
   );
 };
 
-export default DrawImage;
+export default memo(DrawImage);
 
 // import { useState, useRef, useEffect } from "react";
 // import clsx from "clsx";

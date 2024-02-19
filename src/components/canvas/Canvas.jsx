@@ -128,7 +128,6 @@ const Canvas = () => {
     "hsl(0,100%, 50%)",
   ]);
 
-  const [grenadeRadio, setGrenadeRadio] = useState("terside");
   const [bombToTie, setBombToTie] = useState({
     x: null,
     y: null,
@@ -808,13 +807,6 @@ const Canvas = () => {
         newHistory.push(updatedElements);
         setHistory(newHistory);
         setCurrentStep(newHistory.length - 1);
-      } else {
-        // setBombToTie({
-        //   x: null,
-        //   y: null,
-        //   name: null,
-        //   id: null,
-        // });
       }
     }
   };
@@ -1043,7 +1035,6 @@ const Canvas = () => {
                       onMouseUp={handleMouseUp}
                       onTouchEnd={handleMouseUp}
                       onMouseLeave={() => (isDrawing.current = false)}
-                      // onWheel={handleWheel}
                     >
                       <Layer x={830 / 2} y={570 / 2} antialias={true}>
                         {elements.map((element, i) => {

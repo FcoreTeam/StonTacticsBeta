@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import clsx from "clsx";
 
 import bomb from "../../img/icons/grenade_map.svg";
@@ -59,4 +59,4 @@ const GrenadesGroup = ({ canvasWrapperRef, bombGroup, setBombGroup }) => {
   );
 };
 
-export default GrenadesGroup;
+export default memo(GrenadesGroup);
