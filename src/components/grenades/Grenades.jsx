@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Stage, Layer, Line, Text, Arrow, Shape } from "react-konva";
 import clsx from "clsx";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
-import { v4 as uuid } from "uuid";
+import { v4 } from "uuid";
 
 import { setMatchPart } from "../../store/matchPartsSlice/matchPartsSlice";
 
@@ -73,7 +73,7 @@ const Grenades = () => {
 
   const [addVideoData, setAddVideoData] = useState({
     isPopupOpen: false,
-    playerData: {
+    videoData: {
       playerId: null,
       fromId: null,
       tierId: null,
@@ -173,7 +173,9 @@ const Grenades = () => {
           el.name !== "player" &&
           count < 4 &&
           el.count < 4 &&
-          !el.freezed
+          !el.freezed &&
+          el.name !== "warning" &&
+          el.name !== "location"
         ) {
           if (
             el.x - 20 < e.target.x() &&
@@ -206,12 +208,12 @@ const Grenades = () => {
   };
 
   const addElement = (elementName, playerAttrs) => {
-    const id = uuid();
+    const id = v4().slice(0, 8);
     const newElements = [
       ...elements,
       {
         tool: "image",
-        id: elements.length + "",
+        id: id,
         level: "down",
         playerAttrs: playerAttrs,
         playerColor: false,
@@ -234,8 +236,7 @@ const Grenades = () => {
   };
 
   const selectBombOrPlayer = (image, bombObj) => {
-    if (image.name !== "player" && image.name !== "bomb") {
-      if (image.freezed) return;
+    if (image.name !== "player") {
       if (
         bombObj.count !== 1 &&
         transformWrapperRef.current.instance.transformState.scale === 1
@@ -256,55 +257,74 @@ const Grenades = () => {
         playerColor: null,
       });
     } else if (image.name === "player") {
+      console.log(image.id)
       if (bombToTie.x !== null && bombToTie.y !== null) {
-        let updatedElements = elements.map((el) => {
-          if (el.id === image.id || el.id === bombToTie.id) {
-            return {
-              ...el,
-              tierId: elements.length + "",
-              fromId: bombToTie.id,
-              freezed: true,
-              playerColor: image.playerColor,
-            };
-          }
-          return el;
-        });
+        const id = v4().slice(0, 8);
+        let updatedElements = elements
+          .map((el) => {
+            if (el.id === bombToTie.id) {
+              return {
+                ...el,
+                playerId: image.id,
+                tierId: id,
+                fromId: bombToTie.id,
+                freezed: true,
+              };
+            } else if (el.id === image.id) {
+              return {
+                ...el,
+                tierId: id,
+                fromId: bombToTie.id,
+                freezed: true,
+              };
+            }
+            return el;
+          })
+          .sort((a, b) => {
+            if (a.freezed && !b.freezed) {
+              return -1;
+            } else if (!a.freezed && b.freezed) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
         updatedElements.unshift({
-            tool: "pencil",
-            id: elements.length + "",
-            fromId: bombToTie.id,
-            toId: image.id,
-            name: "tier",
-            points: [
-              bombToTie.x + bombToTie.width / 2,
-              bombToTie.y + bombToTie.height / 2,
-              image.x + image.width / 3,
-              image.y + image.height / 2,
-            ],
-            strokeColor: "#FFFFFF",
-            drawWidth: 1,
-            arrowType: "no-pointer",
-            dash: [1, 2],
-            playerColor: image.playerColor,
-          },
-        );
+          tool: "pencil",
+          id: id,
+          fromId: bombToTie.id,
+          toId: image.id,
+          name: "tier",
+          points: [
+            bombToTie.x + bombToTie.width / 2,
+            bombToTie.y + bombToTie.height / 2,
+            image.x + image.width / 3,
+            image.y + image.height / 2,
+          ],
+          freezed: true,
+          strokeColor: "#FFFFFF",
+          drawWidth: 1,
+          arrowType: "no-pointer",
+          dash: [1, 2],
+          playerColor: image.playerColor,
+        });
 
         setTool(null);
         setElements(updatedElements);
-        setBombToTie({
-          x: null,
-          y: null,
-          name: null,
-          id: null,
-        });
+        // setBombToTie({
+        //   x: null,
+        //   y: null,
+        //   name: null,
+        //   id: null,
+        // });
         // setAddVideoData({ isPopupOpen: true, playerId: image.id });
       } else {
-        setBombToTie({
-          x: null,
-          y: null,
-          name: null,
-          id: null,
-        });
+        // setBombToTie({
+        //   x: null,
+        //   y: null,
+        //   name: null,
+        //   id: null,
+        // });
       }
     }
   };
@@ -359,13 +379,13 @@ const Grenades = () => {
 
   const addVideo = () => {
     const updatedElements = elements.map((el) => {
-      if (el.id === addVideoData.playerData.playerId || el.id === addVideoData.playerData.fromId) {
+      if (el.id === addVideoData.videoData.fromId) {
         setAddVideoData({
           isPopupOpen: false,
-          playerData: {
-            playerId: el.id,
+          videoData: {
+            playerId: el.playerId,
             tierId: el.tierId,
-            fromId: el.fromId,
+            fromId: el.id,
           },
         });
         return {
@@ -381,22 +401,22 @@ const Grenades = () => {
   };
 
   const removeBind = () => {
-    const { playerId, fromId, tierId } = addVideoData.playerData;
+    const { playerId, fromId, tierId } = addVideoData.videoData;
     console.log(playerId, fromId, tierId)
-    let newElements = elements.filter(
-      (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
-    );
-    setElements(newElements);
-    setTool(null);
-    setAddVideoData({
-      isPopupOpen: false,
-      playerData: {
-        playerId: null,
-        tierId: null,
-        fromId: null,
-      },
-    });
-    setVideoPopup({ isOpen: false, url: null });
+    // let newElements = elements.filter(
+    //   (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
+    // );
+    // setElements(newElements);
+    // setTool(null);
+    // setAddVideoData({
+    //   isPopupOpen: false,
+    //   videoData: {
+    //     playerId: null,
+    //     tierId: null,
+    //     fromId: null,
+    //   },
+    // });
+    // setVideoPopup({ isOpen: false, url: null });
   };
 
   return (
@@ -407,10 +427,16 @@ const Grenades = () => {
         setBombGroup={setBombGroup}
       />
       {videoPopup.isOpen && (
-        <VideoPopup setVideoPopup={setVideoPopup} videoPopup={videoPopup} removeBind={removeBind} />
+        <VideoPopup
+          setVideoPopup={setVideoPopup}
+          videoPopup={videoPopup}
+          removeBind={removeBind}
+          setBombToTie={setBombToTie}
+        />
       )}
       {addVideoData.isPopupOpen && (
         <UrlPopup
+          setBombToTie={setBombToTie}
           setAddingVideoUrl={setAddingVideoUrl}
           setAddVideoData={setAddVideoData}
           addingVideoUrl={addingVideoUrl}
@@ -555,13 +581,20 @@ const Grenades = () => {
                                   bombToTie: bombToTie,
                                   handleObjectDragEnd,
                                   onDragMove: (e) => checkOverlap(e),
-                                  onClick: (bomb) =>
-                                    selectBombOrPlayer(bomb, {
-                                      name: element.name,
-                                      count: element.count,
-                                      x: element.x,
-                                      y: element.y,
-                                    }),
+                                  onClick: (bomb) => {
+                                    if (
+                                      element.name !== "warning" &&
+                                      element.name !== "location" &&
+                                      element.name !== "bomb"
+                                    ) {
+                                      selectBombOrPlayer(bomb, {
+                                        name: element.name,
+                                        count: element.count,
+                                        x: element.x,
+                                        y: element.y,
+                                      });
+                                    }
+                                  },
                                   setAddVideoData: setAddVideoData,
                                   setVideoPopup: setVideoPopup,
                                 };

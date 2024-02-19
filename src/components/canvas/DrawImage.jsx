@@ -84,6 +84,7 @@ const DrawImage = ({
   videoId,
   tierId,
   fromId,
+  playerId,
   count,
   bombToTie,
   onClick = null,
@@ -190,38 +191,40 @@ const DrawImage = ({
     draggable: draggable && !freezed,
     onDragEnd: (e) => handleObjectDragEnd(id, e, name, playerLevel, count),
     onClick: () => {
-      console.log(videoId)
-      if (name === "player" && videoId === undefined && bombToTie.name !== null) {
+      console.log(playerId, id, tierId);
+      if (name === "player" && freezed) return
+      if (name !== "player" && freezed && videoId !== undefined) {
         setAddVideoData({
-          isPopupOpen: true,
-          playerData: {
-            playerId: id,
-            fromId,
+          isPopupOpen: false,
+          videoData: {
+            playerId: playerId,
+            fromId: id,
             tierId,
           },
         });
-      }
-      if (videoId === undefined && name === "player" && tierId !== undefined && fromId !== undefined) {
-        setAddVideoData({
-          isPopupOpen: true,
-          playerData: {
-            playerId: id,
-            fromId,
-            tierId,
-          },
-        });
-      }
-      if (videoId !== undefined && name === "player") {
-        setAddVideoData(prev => ({
-          ...prev,
-          playerData: {
-            playerId: id,
-            fromId,
-            tierId,
-          },
-        }));
         setVideoPopup({ isOpen: true, url: videoId });
         return;
+      }
+      if (name !== "player" && freezed) {
+        setAddVideoData({
+          isPopupOpen: true,
+          videoData: {
+            playerId: playerId,
+            fromId: id,
+            tierId,
+          },
+        });
+        // return
+      }
+      if (name === "player" && !freezed) {
+        setAddVideoData({
+          isPopupOpen: true,
+          videoData: {
+            playerId: id,
+            fromId: bombToTie.id,
+            tierId,
+          },
+        });
       }
       if (playerColor === false || freezed) {
         onClick({

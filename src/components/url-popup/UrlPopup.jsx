@@ -8,6 +8,7 @@ const UrlPopup = ({
   setAddVideoData,
   addingVideoUrl,
   addVideo,
+  setBombToTie,
 }) => {
   const [isCorrectUrl, setIsCorrectUrl] = useState(null);
 
@@ -49,12 +50,25 @@ const UrlPopup = ({
             </button>
             <button
               className={`${styles.button__video} ${styles.cancell__btn}`}
-              onClick={() =>
+              onClick={() => {
                 setAddVideoData((prev) => ({
                   isPopupOpen: false,
-                  ...prev.playerData,
-                }))
-              }
+                  videoData: {
+                    playerId: null,
+                    fromId: null,
+                    tierId: null
+                  }
+                }));
+                setBombToTie({
+                  x: null,
+                  y: null,
+                  name: null,
+                  id: null,
+                  width: null,
+                  height: null,
+                  playerColor: null,
+                });
+              }}
             >
               Отменить
             </button>

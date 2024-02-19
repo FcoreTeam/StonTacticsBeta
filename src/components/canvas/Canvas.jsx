@@ -140,7 +140,7 @@ const Canvas = () => {
 
   const [addVideoData, setAddVideoData] = useState({
     isPopupOpen: false,
-    playerData: {
+    videoData: {
       playerId: null,
       fromId: null,
       tierId: null,
@@ -491,7 +491,9 @@ const Canvas = () => {
           el.name !== "player" &&
           count < 4 &&
           el.count < 4 &&
-          !el.freezed
+          !el.freezed &&
+          el.name !== "warning" &&
+          el.name !== "location"
         ) {
           if (
             el.x - 20 < e.target.x() &&
@@ -729,8 +731,7 @@ const Canvas = () => {
   // };
 
   const selectBombOrPlayer = (image, bombObj) => {
-    if (image.name !== "player" && image.name !== "bomb") {
-      if (image.freezed) return;
+    if (image.name !== "player") {
       if (
         bombObj.count !== 1 &&
         transformWrapperRef.current.instance.transformState.scale === 1
@@ -755,7 +756,15 @@ const Canvas = () => {
         const id = v4().slice(0, 8);
         let updatedElements = elements
           .map((el) => {
-            if (el.id === image.id || el.id === bombToTie.id) {
+            if (el.id === bombToTie.id) {
+              return {
+                ...el,
+                playerId: image.id,
+                tierId: id,
+                fromId: bombToTie.id,
+                freezed: true,
+              };
+            } else if (el.id === image.id) {
               return {
                 ...el,
                 tierId: id,
@@ -786,6 +795,7 @@ const Canvas = () => {
             image.x + image.width / 3,
             image.y + image.height / 2,
           ],
+          freezed: true,
           strokeColor: color[0],
           drawWidth: 1,
           arrowType: "no-pointer",
@@ -798,19 +808,13 @@ const Canvas = () => {
         newHistory.push(updatedElements);
         setHistory(newHistory);
         setCurrentStep(newHistory.length - 1);
-        setBombToTie({
-          x: null,
-          y: null,
-          name: null,
-          id: null,
-        });
       } else {
-        setBombToTie({
-          x: null,
-          y: null,
-          name: null,
-          id: null,
-        });
+        // setBombToTie({
+        //   x: null,
+        //   y: null,
+        //   name: null,
+        //   id: null,
+        // });
       }
     }
   };
@@ -824,13 +828,13 @@ const Canvas = () => {
 
   const addVideo = () => {
     const updatedElements = elements.map((el) => {
-      if (el.id === addVideoData.playerData.playerId) {
+      if (el.id === addVideoData.videoData.fromId) {
         setAddVideoData({
           isPopupOpen: false,
-          playerData: {
-            playerId: el.id,
+          videoData: {
+            playerId: el.playerId,
             tierId: el.tierId,
-            fromId: el.fromId,
+            fromId: el.id,
           },
         });
         return {
@@ -851,7 +855,7 @@ const Canvas = () => {
   };
 
   const removeBind = () => {
-    const { playerId, fromId, tierId } = addVideoData.playerData;
+    const { playerId, fromId, tierId } = addVideoData.videoData;
     let newElements = elements.filter(
       (el) => el.id !== playerId && el.id !== fromId && el.id !== tierId
     );
@@ -863,7 +867,7 @@ const Canvas = () => {
     setCurrentStep(newHistory.length - 1);
     setAddVideoData({
       isPopupOpen: false,
-      playerData: {
+      videoData: {
         playerId: null,
         tierId: null,
         fromId: null,
@@ -884,10 +888,12 @@ const Canvas = () => {
           setVideoPopup={setVideoPopup}
           videoPopup={videoPopup}
           removeBind={removeBind}
+          setBombToTie={setBombToTie}
         />
       )}
       {addVideoData.isPopupOpen && (
         <UrlPopup
+          setBombToTie={setBombToTie}
           setAddingVideoUrl={setAddingVideoUrl}
           setAddVideoData={setAddVideoData}
           addingVideoUrl={addingVideoUrl}
@@ -1160,6 +1166,7 @@ const Canvas = () => {
                                 id: element.id,
                                 tierId: element.tierId,
                                 fromId: element.fromId,
+                                playerId: element.playerId,
                                 name: element.name,
                                 level: element.level,
                                 playerAttrs: element.playerAttrs,
@@ -1175,13 +1182,18 @@ const Canvas = () => {
                                 handleObjectDragEnd,
                                 onDragMove: (e) => checkOverlap(e),
                                 onClick: (bomb) => {
-                                  if (element.name !== "warning" && element.name !== "location")
-                                  selectBombOrPlayer(bomb, {
-                                    name: element.name,
-                                    count: element.count,
-                                    x: element.x,
-                                    y: element.y,
-                                  });
+                                  if (
+                                    element.name !== "warning" &&
+                                    element.name !== "location" &&
+                                    element.name !== "bomb"
+                                  ) {
+                                    selectBombOrPlayer(bomb, {
+                                      name: element.name,
+                                      count: element.count,
+                                      x: element.x,
+                                      y: element.y,
+                                    });
+                                  }
                                 },
                                 setVideoPopup: setVideoPopup,
                                 setAddVideoData: setAddVideoData,

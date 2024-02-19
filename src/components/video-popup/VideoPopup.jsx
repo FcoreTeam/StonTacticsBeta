@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import Popup from "../popup/Popup";
 
-import trashIcon from '../../img/icons/Subtract-5.svg'
+import trashIcon from "../../img/icons/Subtract-5.svg";
 
 import styles from "./video-popup.module.scss";
 
-const VideoPopup = ({ setVideoPopup, videoPopup, removeBind }) => {
+const VideoPopup = ({ setVideoPopup, videoPopup, removeBind, setBombToTie }) => {
   const copyVideoUrl = () => {
     navigator.clipboard.writeText(
       `https://www.youtube.com/watch?v=${videoPopup.url}`
@@ -18,7 +18,7 @@ const VideoPopup = ({ setVideoPopup, videoPopup, removeBind }) => {
         {videoPopup.url && (
           <iframe
             src={`https://youtube.com/embed/${videoPopup.url}`}
-            frameborder="0"
+            frameBorder="0"
             className={styles.video}
           ></iframe>
         )}
@@ -32,7 +32,18 @@ const VideoPopup = ({ setVideoPopup, videoPopup, removeBind }) => {
           </button>
           <button
             className={clsx(styles.video__buttons, styles.close__button)}
-            onClick={() => setVideoPopup({ isOpen: false, url: null })}
+            onClick={() => {
+              setVideoPopup({ isOpen: false, url: null });
+              setBombToTie({
+                x: null,
+                y: null,
+                name: null,
+                id: null,
+                width: null,
+                height: null,
+                playerColor: null,
+              });
+            }}
           >
             Закрыть
           </button>
