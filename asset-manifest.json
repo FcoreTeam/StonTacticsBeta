@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/StonTacticsBeta/static/css/main.0075650f.css",
-    "main.js": "/StonTacticsBeta/static/js/main.dc94d923.js",
+    "main.js": "/StonTacticsBeta/static/js/main.c7e2f98a.js",
     "static/media/sandstone.PNG": "/StonTacticsBeta/static/media/sandstone.d261adc1d176b0357479.PNG",
     "static/media/sakura.PNG": "/StonTacticsBeta/static/media/sakura.90d1ff999e5f74e9a2cd.PNG",
     "static/media/dune.PNG": "/StonTacticsBeta/static/media/dune.aa7e27416395c13691df.PNG",
@@ -86,10 +86,10 @@
     "static/media/brushFive.svg": "/StonTacticsBeta/static/media/brushFive.e663e9e8e9ecf7e5f12cf682097d09f2.svg",
     "static/media/Star 3.svg": "/StonTacticsBeta/static/media/Star 3.095f9f2d7df8c9c56f00e56091c3e34b.svg",
     "main.0075650f.css.map": "/StonTacticsBeta/static/css/main.0075650f.css.map",
-    "main.dc94d923.js.map": "/StonTacticsBeta/static/js/main.dc94d923.js.map"
+    "main.c7e2f98a.js.map": "/StonTacticsBeta/static/js/main.c7e2f98a.js.map"
   },
   "entrypoints": [
     "static/css/main.0075650f.css",
-    "static/js/main.dc94d923.js"
+    "static/js/main.c7e2f98a.js"
   ]
 }
