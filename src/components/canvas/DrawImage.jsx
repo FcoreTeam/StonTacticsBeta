@@ -181,7 +181,7 @@ const DrawImage = ({
       y: y,
     });
   }, [x, y]);
-
+  
   const attrs = {
     id,
     x,
@@ -191,7 +191,7 @@ const DrawImage = ({
     draggable: draggable && !freezed,
     onDragEnd: (e) => handleObjectDragEnd(id, e, name, playerLevel, count),
     onClick: () => {
-      if (name === "player" && freezed) return
+      if (name === "player" && freezed || name === "player" && bombToTie.id === null) return
       if (name !== "player" && freezed && videoId !== undefined) {
         setAddVideoData({
           isPopupOpen: false,

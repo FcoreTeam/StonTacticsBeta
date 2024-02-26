@@ -68,6 +68,7 @@ import personFiveBlue from "../../img/icons/person_5_blue.svg";
 
 import styles from "./canvas.module.scss";
 import buttonStyles from "../button/button.module.scss";
+import AcceptPopup from "../accept-popup/AcceptPopup";
 
 const elementImages = {
   warning: warning,
@@ -159,6 +160,8 @@ const Canvas = () => {
     y: null,
   });
 
+  const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(null)
+
   // const [scale, setScale] = useState(1);
 
   const isDrawing = useRef(null);
@@ -182,6 +185,8 @@ const Canvas = () => {
       // stageRef.current.container().style.scale = "1"
     }
   };
+
+  console.log(elements);
 
   useEffect(() => {
     setElements(history[currentStep]);
@@ -870,6 +875,12 @@ const Canvas = () => {
 
   return (
     <>
+      {isAcceptPopupOpen && <AcceptPopup accept={() => {
+        removeBind()
+        setIsAcceptPopupOpen(false)
+      }} reject={() => {
+        setIsAcceptPopupOpen(false)
+      }} />}
       <GrenadesGroup
         canvasWrapperRef={canvasWrapperRef}
         bombGroup={bombGroup}
@@ -879,7 +890,7 @@ const Canvas = () => {
         <VideoPopup
           setVideoPopup={setVideoPopup}
           videoPopup={videoPopup}
-          removeBind={removeBind}
+          removeBind={() => setIsAcceptPopupOpen(true)}
           setBombToTie={setBombToTie}
         />
       )}

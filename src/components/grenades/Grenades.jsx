@@ -31,6 +31,7 @@ import fullScreen from "../../img/icons/Union-2.svg";
 
 import styles from "./grenades.module.scss";
 import GrenadesGroup from "../grenades-group/GrenadesGroup";
+import AcceptPopup from "../accept-popup/AcceptPopup";
 
 const elementImages = {
   flashbang: flashbang,
@@ -88,6 +89,8 @@ const Grenades = () => {
     x: null,
     y: null,
   });
+
+  const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(null);
 
   const stageRef = useRef(null);
   const canvasWrapperRef = useRef(null);
@@ -402,6 +405,17 @@ const Grenades = () => {
 
   return (
     <>
+      {isAcceptPopupOpen && (
+        <AcceptPopup
+          accept={() => {
+            removeBind();
+            setIsAcceptPopupOpen(false);
+          }}
+          reject={() => {
+            setIsAcceptPopupOpen(false);
+          }}
+        />
+      )}
       <GrenadesGroup
         canvasWrapperRef={canvasWrapperRef}
         bombGroup={bombGroup}
@@ -411,7 +425,7 @@ const Grenades = () => {
         <VideoPopup
           setVideoPopup={setVideoPopup}
           videoPopup={videoPopup}
-          removeBind={removeBind}
+          removeBind={() => setIsAcceptPopupOpen(true)}
           setBombToTie={setBombToTie}
         />
       )}
@@ -485,15 +499,11 @@ const Grenades = () => {
                   )}
                 >
                   <TransformWrapper
-                    disabled={
-                      tool || isDragable || bombGroup.name
-                    }
+                    disabled={tool || isDragable || bombGroup.name}
                     wheel={{ disabled: !shiftPressed }}
                     ref={transformWrapperRef}
                   >
-                    <TransformComponent
-                      disabled={tool || isDragable}
-                    >
+                    <TransformComponent disabled={tool || isDragable}>
                       <Map mapName={selectedMap} />
                       <Stage
                         pixelRatio={window.devicePixelRatio}

@@ -28,7 +28,7 @@ const GrenadesGroup = ({ canvasWrapperRef, bombGroup, setBombGroup }) => {
   }, [canvasWrapperRef]);
 
   const elements = Array.from({ length: bombGroup?.count }, (_, index) => (
-    <img src={elementImages[bombGroup.name]} alt="" />
+    <img key={index} src={elementImages[bombGroup.name]} alt="" />
   ));
 
   return (
