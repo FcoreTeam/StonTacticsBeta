@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/StonTacticsBeta/static/css/main.2a071c81.css",
-    "main.js": "/StonTacticsBeta/static/js/main.d7393e00.js",
+    "main.css": "/StonTacticsBeta/static/css/main.00d3581a.css",
+    "main.js": "/StonTacticsBeta/static/js/main.b7667311.js",
+    "static/media/province.png": "/StonTacticsBeta/static/media/province.be3563b6fe185fb0a558.png",
     "static/media/sandstone.PNG": "/StonTacticsBeta/static/media/sandstone.d261adc1d176b0357479.PNG",
     "static/media/sakura.PNG": "/StonTacticsBeta/static/media/sakura.90d1ff999e5f74e9a2cd.PNG",
     "static/media/dune.PNG": "/StonTacticsBeta/static/media/dune.aa7e27416395c13691df.PNG",
@@ -9,13 +10,13 @@
     "static/media/province.PNG": "/StonTacticsBeta/static/media/province.983b547d39424fe4bcd4.PNG",
     "static/media/rust.PNG": "/StonTacticsBeta/static/media/rust.d298fa239c7c835ae372.PNG",
     "static/media/zone.PNG": "/StonTacticsBeta/static/media/zone.57aee75f62e98d07262c.PNG",
-    "static/media/screenshot.jpg": "/StonTacticsBeta/static/media/screenshot.d2634c0c8009d613db22.jpg",
     "static/media/OnestExtraBold.ttf": "/StonTacticsBeta/static/media/OnestExtraBold.3ef21448065fc5068662.ttf",
     "static/media/OnestBold.ttf": "/StonTacticsBeta/static/media/OnestBold.94a0458cbbe9d212ff5d.ttf",
     "static/media/OnestRegular.ttf": "/StonTacticsBeta/static/media/OnestRegular.851b8f253e8728ec40e3.ttf",
     "static/media/logotype.png": "/StonTacticsBeta/static/media/logotype.dd7ad542ffa06d78406d.png",
     "static/media/grenade_map.svg": "/StonTacticsBeta/static/media/grenade_map.9378b22d67c2c10ba99a417494f82538.svg",
     "static/media/grenade.svg": "/StonTacticsBeta/static/media/grenade.4d4313612ef4635e63ef595ce384a598.svg",
+    "static/media/google-icon.svg": "/StonTacticsBeta/static/media/google-icon.eebee1f33e2fc16b13687c71eee1e04f.svg",
     "static/media/person_3_blue.svg": "/StonTacticsBeta/static/media/person_3_blue.1460aa7a53ec60e69df0fa62fd7ad617.svg",
     "static/media/person_3_yellow.svg": "/StonTacticsBeta/static/media/person_3_yellow.859006d56f533e6b9d5cb2a34ca10f10.svg",
     "static/media/smoke_map.svg": "/StonTacticsBeta/static/media/smoke_map.d5b082c121a9b72e5ed54253865f3b7d.svg",
@@ -50,7 +51,9 @@
     "static/media/Subtract-7.svg": "/StonTacticsBeta/static/media/Subtract-7.7226ed1335eabff7b6d5fcf3236bc329.svg",
     "static/media/Subtract-4.svg": "/StonTacticsBeta/static/media/Subtract-4.ff997f00813213cf162ef1ea0b08b12a.svg",
     "static/media/molotov_map.svg": "/StonTacticsBeta/static/media/molotov_map.a5e8e8e8c0d010a3a6e8aa2b2797f49d.svg",
+    "static/media/apple-icon.svg": "/StonTacticsBeta/static/media/apple-icon.f60aaf2b50ae9b77d1607541d9d15e95.svg",
     "static/media/brushSix.svg": "/StonTacticsBeta/static/media/brushSix.400f00d264e61a1ece1e1c11dcdc8a86.svg",
+    "static/media/vk-icon.svg": "/StonTacticsBeta/static/media/vk-icon.63723948b93fc5e7feb41e813ae40309.svg",
     "static/media/Union-3.svg": "/StonTacticsBeta/static/media/Union-3.e52d17f1a64cd4cbe33bce4669df0cf5.svg",
     "static/media/person_1_blue.svg": "/StonTacticsBeta/static/media/person_1_blue.0927a7d81c1f1d8d90e72845d8cf33bf.svg",
     "static/media/person_1_yellow.svg": "/StonTacticsBeta/static/media/person_1_yellow.58bf76eaf01a82e0b45dfb92730e74eb.svg",
@@ -58,7 +61,9 @@
     "static/media/T_1_down.svg": "/StonTacticsBeta/static/media/T_1_down.d370dcbe81414baacf07a837c79c8bc9.svg",
     "static/media/KT_1_up.svg": "/StonTacticsBeta/static/media/KT_1_up.b1ff06cf2c1373cb0a81209c77800862.svg",
     "static/media/T_1_up.svg": "/StonTacticsBeta/static/media/T_1_up.610c0dd1073a252b4aec0ab3c7c6243a.svg",
+    "static/media/sozdat_papku.svg": "/StonTacticsBeta/static/media/sozdat_papku.0b35d193adc12f190800d666ca047584.svg",
     "static/media/Subtract-10.svg": "/StonTacticsBeta/static/media/Subtract-10.9f4edf5cf0af1a6fc9d5868d2b63aba6.svg",
+    "static/media/persona.svg": "/StonTacticsBeta/static/media/persona.7475ce2dca6829d70dcbcfdf76c8217d.svg",
     "static/media/Vector (Stroke)-1.svg": "/StonTacticsBeta/static/media/Vector (Stroke)-1.d7c5d28a00b8b976e1e8521d24f5b017.svg",
     "static/media/Vector (Stroke).svg": "/StonTacticsBeta/static/media/Vector (Stroke).db30b582f863a98725da48c45a963272.svg",
     "static/media/KT_4_down.svg": "/StonTacticsBeta/static/media/KT_4_down.8c4bf68cdd9b4e2ef0c7933b2b3e9e2e.svg",
@@ -82,14 +87,15 @@
     "index.html": "/StonTacticsBeta/index.html",
     "static/media/clock-fill.svg": "/StonTacticsBeta/static/media/clock-fill.ff45f71ab128eb1566dc875bc79e43cd.svg",
     "static/media/BrushTwo.svg": "/StonTacticsBeta/static/media/BrushTwo.0ed3866804bf5c6e7df4b39137febb15.svg",
+    "static/media/Union.svg": "/StonTacticsBeta/static/media/Union.40e020569c3ebf10ce0a273b3e6a1060.svg",
     "static/media/burshOne.svg": "/StonTacticsBeta/static/media/burshOne.ff24e4cd0a2e59645ffb39938693bad6.svg",
     "static/media/brushFive.svg": "/StonTacticsBeta/static/media/brushFive.e663e9e8e9ecf7e5f12cf682097d09f2.svg",
     "static/media/Star 3.svg": "/StonTacticsBeta/static/media/Star 3.095f9f2d7df8c9c56f00e56091c3e34b.svg",
-    "main.2a071c81.css.map": "/StonTacticsBeta/static/css/main.2a071c81.css.map",
-    "main.d7393e00.js.map": "/StonTacticsBeta/static/js/main.d7393e00.js.map"
+    "main.00d3581a.css.map": "/StonTacticsBeta/static/css/main.00d3581a.css.map",
+    "main.b7667311.js.map": "/StonTacticsBeta/static/js/main.b7667311.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a071c81.css",
-    "static/js/main.d7393e00.js"
+    "static/css/main.00d3581a.css",
+    "static/js/main.b7667311.js"
   ]
 }
