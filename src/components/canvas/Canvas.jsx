@@ -160,7 +160,7 @@ const Canvas = () => {
     y: null,
   });
 
-  const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(null)
+  const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(null);
 
   // const [scale, setScale] = useState(1);
 
@@ -357,19 +357,27 @@ const Canvas = () => {
   const handleMouseUp = () => {
     if (!tool) return;
     let newElements = elements.filter((el) => {
-      if (el.points?.length < 4) {
+      if (
+        Object.keys(el.points)?.length < 4 &&
+        el.tool === "arrow" &&
+        (el.arrowType === "pointer" || el.arrowType === "pointer-stroke")
+      ) {
         return;
       } else if (
         el.tool === "arrow" &&
-        (!el.points.lastX || !el.points.lastY)
+        (el.points.lastX === undefined || el.points.lastY === undefined)
       ) {
         return;
       } else {
         return el;
       }
     });
+    if (newElements.length < elements.length) {
+      isDrawing.current = false;
+      return
+    }
     setElements(newElements);
-
+    
     isDrawing.current = false;
     const newHistory = history.slice(0, currentStep + 1);
     newHistory.push(elements);
@@ -875,12 +883,17 @@ const Canvas = () => {
 
   return (
     <>
-      {isAcceptPopupOpen && <AcceptPopup accept={() => {
-        removeBind()
-        setIsAcceptPopupOpen(false)
-      }} reject={() => {
-        setIsAcceptPopupOpen(false)
-      }} />}
+      {isAcceptPopupOpen && (
+        <AcceptPopup
+          accept={() => {
+            removeBind();
+            setIsAcceptPopupOpen(false);
+          }}
+          reject={() => {
+            setIsAcceptPopupOpen(false);
+          }}
+        />
+      )}
       <GrenadesGroup
         canvasWrapperRef={canvasWrapperRef}
         bombGroup={bombGroup}

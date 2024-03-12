@@ -1,0 +1,207 @@
+.saves__wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.saves{
+    width: 1260px;
+    height: 570px;
+    margin-top: 10px;
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.folders{
+    min-width: 200px;
+    height: 100%;
+    background: #181A1E;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.schemes{
+ width: 100%;
+ height: 100%;
+ margin-left: 10px;
+ margin-right: 10px;
+}
+.folder__way{
+    height: 50px;
+    width: 100%;
+    background: #181A1E;
+}
+.saves__filter{
+    display: flex;
+    margin-top: 10px;
+}
+.filter__button{
+    height: 40px;
+    width: 150px;
+    background: #181A1E;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    transition: .3s;
+    color: #fff;
+    cursor: pointer;
+}
+.filter__button:hover{
+    border-radius: 10px;
+    background: #25292d;
+}
+.grenades__filter{
+    margin-left: 10px;
+}
+.side__button{
+ height: 30px;
+ width: 30px;
+ margin-left: 20px;
+}
+.maps{
+    margin-top: 10px;
+    width: 100%;
+    height: 410px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 32.7% 32.7% 32.7%;
+    grid-template-rows: 200px 200px 200px;
+    grid-gap: 10px;
+}
+.show__wrapper{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.show__more{
+    background: #181A1E;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    height: 40px;
+    width: 150px;
+    color: #fff;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: .3s;
+    cursor: pointer;
+}
+.show__more:hover{
+    scale: 1.08;
+}
+.none__maps{
+    width: 350px;
+    height: 100px;
+    background: #181A1E;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.none__info{
+    color: #fff;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+.none__button{
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    text-transform: uppercase;
+    background: #DBFF00;
+    cursor: pointer;
+    transition: .3s;
+}
+.none__button:hover{
+    scale: 1.08;
+}
+.folders__mobile{
+    display: none;
+}
+@media(max-width: 821px){
+    .maps{
+        margin-top: 10px;
+        width: 100%;
+        height: 620px;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: 49% 49%;
+        grid-template-rows: 200px 200px;
+        grid-gap: 10px;
+    }
+}
+@media(max-width: 591px){
+    .folders{
+        display: none;
+    }
+    .folders__mobile{
+        width: 100%;
+        height: 120px;
+        background: #181A1E;
+        display: flex;
+        flex-flow: column;
+    }
+    .folder__wrap{
+        width: 100%;
+        display: flex;
+        height: 50%;
+        
+    }
+    .folder__way{
+        margin-top: 10px;
+    }
+}
+.province__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/maps/province.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.rust__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/mapsbanners/rust.PNG");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.sandstone__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/mapsbanners/sandstone.PNG");
+    background-position: center;
+    background-size:  cover;
+    background-repeat: no-repeat;
+}
+.dune__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/mapsbanners/dune.PNG");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.sakura__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/mapsbanners/sakura.PNG");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.breeze__background{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../img/mapsbanners/breeze.PNG");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

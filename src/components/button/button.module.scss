@@ -30,6 +30,9 @@ button {
       width: 80px;
       height: 70px;
     }
+    &.side__btn{
+      margin-left: 10px;
+    }
     &:hover {
       border-radius: 10px;
       background: #606879;

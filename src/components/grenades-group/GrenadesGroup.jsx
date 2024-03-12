@@ -34,8 +34,8 @@ const GrenadesGroup = ({ canvasWrapperRef, bombGroup, setBombGroup }) => {
   return (
     <div
       style={{
-        top: leftTop?.top + bombGroup?.y + 290,
-        left: leftTop?.left + bombGroup?.x + 370,
+        top: leftTop?.top + bombGroup?.y + 290 + "px",
+        left: leftTop?.left + bombGroup?.x + 370 + "px",
         opacity: bombGroup.name !== null ? 1 : 0,
         pointerEvents: bombGroup.name !== null ? "auto" : "none",
       }}
