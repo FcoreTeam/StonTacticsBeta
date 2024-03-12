@@ -22,6 +22,7 @@ const App = () => {
   );
 
   useEffect(() => {
+    navigate("/strategy")
     if (isSignedIn) {
       fetchUserData(Cookies.get("accessToken"))
     }
@@ -41,6 +42,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    d
     if (Cookies.get("accessToken") && Cookies.get("refreshToken")) {
       dispatch(setUserSign(true));
     } else {
