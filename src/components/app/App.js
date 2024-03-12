@@ -42,7 +42,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    d
     if (Cookies.get("accessToken") && Cookies.get("refreshToken")) {
       dispatch(setUserSign(true));
     } else {
